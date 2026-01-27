@@ -8,6 +8,6 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Olá Luciano, sua primeira API está rodando 🚀";
+        return "Olá Luciano, sua namorada Miriam está gravida, dê seus pulos mlkote 🚀";
     }
 }
