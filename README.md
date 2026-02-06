@@ -1,1 +1,1 @@
-# cálculo implícito binomial
+cálculo implícito binomial
