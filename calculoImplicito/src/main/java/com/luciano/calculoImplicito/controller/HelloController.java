@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+    @GetMapping("/")
+    public String barra() {
+        return "A pagina em springboot está funcionando ok rsrs 🚀";
+    }
+
     @GetMapping("/hello")
     public String hello() {
-        return "Olá Luciano, sua namorada Miriam está gravida, dê seus pulos mlkote 🚀";
+        return "Olá Luciano, precisa arruamar um emprego 🚀";
     }
 }

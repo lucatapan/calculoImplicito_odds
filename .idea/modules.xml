@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/calculoImplicito.iml" filepath="$PROJECT_DIR$/.idea/calculoImplicito.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calculoImplicito/calculoImplicito.iml" filepath="$PROJECT_DIR$/calculoImplicito/calculoImplicito.iml" />
     </modules>
   </component>
 </project>
