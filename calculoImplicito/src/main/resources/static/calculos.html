@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathOdds AI – Aprenda Probabilidades</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎲 MathOdds AI</h1>
+        <p>Entenda a matemática por trás das odds em cassinos.<br>
+            <strong>Simulações educativas apenas.</strong> A casa sempre tem vantagem a longo prazo. Jogue com responsabilidade.</p>
+    </header>
+
+    <!-- Coeficiente Binomial -->
+    <section class="section">
+        <h2>Coeficiente Binomial C(n, k)</h2>
+        <p class="desc">Quantas maneiras de escolher k sucessos em n tentativas.</p>
+        <form id="binomial-form">
+            <label>n (tentativas): <input type="number" id="n" value="10" min="0"></label>
+            <label>k (sucessos): <input type="number" id="k" value="5" min="0"></label>
+            <div class="buttons">
+                <button type="submit">Calcular</button>
+                <button type="button" onclick="limpar()">Limpar</button>
+            </div>
+        </form>
+        <p id="result-binomial" class="result"></p>
+    </section>
+
+    <!-- Probabilidade Binomial -->
+    <section class="section">
+        <h2>Probabilidade Binomial</h2>
+        <p class="desc">Chance de exatamente k sucessos em n tentativas (p = prob. de sucesso).</p>
+        <form id="prob-form">
+            <label>n (tentativas): <input type="number" id="n-prob" value="10" min="0"></label>
+            <label>k (sucessos): <input type="number" id="k-prob" value="5" min="0"></label>
+            <label>p (prob. sucesso %): <input type="number" id="p" value="50" min="0" max="100" step="0.1"></label>
+            <div class="buttons">
+                <button type="submit">Calcular</button>
+                <button type="button" onclick="limpar()">Limpar</button>
+            </div>
+        </form>
+        <p id="result-prob" class="result"></p>
+    </section>
+
+    <!-- Martingale -->
+    <section class="section">
+        <h2>Estratégia Martingale (simulação)</h2>
+        <p class="desc">Dobra aposta após perda, volta ao inicial após vitória. Parece "infalível", mas...</p>
+        <form id="martingale-form">
+            <label>Bankroll inicial (R$): <input type="number" id="bankroll" value="1000" min="1" step="0.01"></label>
+            <label>Aposta inicial (R$): <input type="number" id="aposta" value="10" min="0.01" step="0.01"></label>
+            <label>p (prob. vitória %): <input type="number" id="p-mart" value="48.6" min="0" max="100" step="0.1"></label>
+            <label>Rodadas máximas: <input type="number" id="rodadas" value="100" min="1"></label>
+            <div class="buttons">
+                <button type="submit">Simular</button>
+                <button type="button" onclick="limpar()">Limpar</button>
+            </div>
+        </form>
+        <pre id="result-martingale" class="result" style="white-space: pre-wrap; text-align: left;"></pre>
+    </section>
+
+    <!-- Histórico -->
+    <section class="section">
+        <h2>Histórico de Simulações</h2>
+        <div class="buttons">
+            <button type="button" onclick="loadHistory()">Carregar Histórico</button>
+            <button type="button" onclick="clearHistory()" style="background-color: #e74c3c;">Limpar Histórico</button>
+        </div>
+        <ul id="history-list" style="list-style: none; padding: 0;"></ul>
+    </section>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>

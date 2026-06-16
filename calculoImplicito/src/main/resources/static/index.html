@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathOdds AI - Matemática Inteligente para Slots</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://picsum.photos/id/1015/1920/1080') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+        }
+        .cta-button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 16px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .cta-button:hover {
+            background-color: #c0392b;
+        }
+        .section {
+            padding: 60px 20px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HERO / CAPA -->
+    <section class="hero">
+        <h1>🎲 MathOdds AI</h1>
+        <p style="font-size: 1.4em; max-width: 700px; margin: 0 auto 30px;">
+            A ferramenta mais inteligente para entender probabilidades, calcular odds implícitas e tomar decisões conscientes em slots.
+        </p>
+        <button onclick="irParaCalculos()" class="cta-button">
+            Acessar Ferramentas de Cálculo →
+        </button>
+        <p style="margin-top: 30px; font-size: 1em; opacity: 0.9;">
+            Simulações educativas • Jogue com responsabilidade
+        </p>
+    </section>
+
+    <!-- Sobre o App -->
+    <section class="section" style="background: #f8f9fa;">
+        <h2 style="text-align: center;">Por que usar o MathOdds AI?</h2>
+        <p class="desc" style="text-align: center; max-width: 700px; margin: 0 auto 40px;">
+            Entenda a matemática por trás dos slots. Calcule probabilidades reais, simule estratégias e evite decisões baseadas apenas na sorte.
+        </p>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>📊 Cálculos Precisos</h3>
+                <p>Binomial, probabilidades implícitas, RTP e volatilidade com Apache Commons Math.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎰 Foco em Slots</h3>
+                <p>Em breve: cálculo por payline, quantidade de símbolos e táticas por volatilidade (baixa/média/alta).</p>
+            </div>
+            <div class="feature-card">
+                <h3>📚 Ensina de Verdade</h3>
+                <p>Explicações claras + histórico de simulações para você aprender enquanto testa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aviso Responsável -->
+    <section class="section" style="background: #fff3cd; color: #856404; text-align: center;">
+        <strong>⚠️ AVISO IMPORTANTE:</strong><br>
+        Este app é uma ferramenta educativa. A casa sempre tem vantagem a longo prazo.<br>
+        Jogue apenas pelo entretenimento e com dinheiro que você pode perder.
+    </section>
+
+    <!-- Botão para Ferramentas -->
+    <div style="text-align: center; padding: 40px 0;">
+        <button onclick="irParaCalculos()" class="cta-button" style="font-size: 1.5em; padding: 20px 50px;">
+            Abrir Calculadora Avançada
+        </button>
+    </div>
+
+</div>
+
+<script>
+    function irParaCalculos() {
+        window.location.href = "/calculos.html";
+    }
+</script>
+
+<script src="/script.js"></script>
+</body>
+</html>
