@@ -1,5 +1,6 @@
 package com.luciano.calculoImplicito.controller;
 
+import com.luciano.calculoImplicito.model.CalcResponse;
 import com.luciano.calculoImplicito.model.Simulation;
 import com.luciano.calculoImplicito.repository.SimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,86 +12,89 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-public class BinomialController {
+public class MainController {
 
     @Autowired
     private SimulationRepository simulationRepository;
 
     @GetMapping("/binomial/{n}/{k}")
-    public String calcular(@PathVariable int n, @PathVariable int k) {
+    public CalcResponse calcular(@PathVariable int n, @PathVariable int k) {
         if (k < 0 || k > n || n < 0) {
-            return "Erro: k deve estar entre 0 e n, e n >= 0";
+            return new CalcResponse("Erro", "Parâmetros inválidos: k deve estar entre 0 e n.");
         }
 
         try {
             long coef = CombinatoricsUtils.binomialCoefficient(n, k);
+            String resultado = "C(" + n + "," + k + ") = " + coef;
+            String explicacao = "Número de maneiras de escolher " + k + " sucessos em " + n + " tentativas. Útil para calcular combinações em paylines de slots.";
 
-            // Construa a string uma única vez
-            String resultado = "Coeficiente binomial C(" + n + "," + k + ") = " + coef;
-
-            // Salve no MongoDB
-            saveSimulation("coeficiente", n, k, null, resultado);
-
-            // Retorne direto
-            return resultado;
-
-        } catch (ArithmeticException e) {
-            return "Erro: valor muito grande (n muito alto para calcular com precisão)";
+            saveSimulation("coeficiente", n, k, null, resultado + " | " + explicacao);
+            return new CalcResponse(resultado, explicacao);
+        } catch (Exception e) {
+            return new CalcResponse("Erro", "Valor muito grande para calcular.");
         }
     }
+
     // Novo endpoint: probabilidade binomial
     @GetMapping("/binomial/prob/{n}/{k}/{p}")
-    public String probabilidade(@PathVariable int n, @PathVariable int k, @PathVariable double p) {
+    public CalcResponse probabilidade(@PathVariable int n, @PathVariable int k, @PathVariable double p) {
         if (k < 0 || k > n || n < 0) {
-            return "Erro: k deve estar entre 0 e n, n >= 0";
+            return new CalcResponse("Erro", "Parâmetros inválidos.");
         }
         if (p < 0 || p > 1) {
-            return "Erro: p deve estar entre 0 e 1";
+            return new CalcResponse("Erro", "p deve estar entre 0 e 1.");
         }
 
         try {
             BinomialDistribution dist = new BinomialDistribution(n, p);
             double prob = dist.probability(k);
 
-            // Construa a string uma única vez
             String resultado = String.format(
                     "Probabilidade de exatamente %d sucessos em %d tentativas (p=%.3f) = %.6f (%.4f%%)",
                     k, n, p, prob, prob * 100
             );
 
-            // Salve no MongoDB
-            saveSimulation("probabilidade", n, k, p, resultado);
+            String explicacao = "Isso é a chance real de um evento acontecer exatamente " + k + " vezes em " + n + " tentativas. " +
+                    "Em cassinos, p geralmente é menor que 0.5 (ex: ~0.486 na roleta europeia por causa do zero). " +
+                    "Quanto maior o n, mais a probabilidade se aproxima da média — e a casa sempre tem edge positivo a longo prazo.";
 
-            // Retorne direto
-            return resultado;
+            if (p < 0.5) {
+                explicacao += "\n\nDica: Quando p < 0.5, a expectativa é perda gradual. Estratégias como Martingale não mudam isso — só adiam a quebra.";
+            }
+
+            String fullResult = resultado + "\n\n" + explicacao;
+            saveSimulation("probabilidade", n, k, p, fullResult);
+
+            return new CalcResponse(resultado, explicacao);
 
         } catch (Exception e) {
-            return "Erro ao calcular: " + e.getMessage();
+            return new CalcResponse("Erro", "Falha no cálculo: " + e.getMessage());
         }
     }
-// Novo: Salvar automaticamente após cada cálculo
-private void saveSimulation(String type, int n, int k, Double p, String result) {
-    Simulation sim = new Simulation();
-    sim.setType(type);
-    sim.setN(n);
-    sim.setK(k);
-    sim.setP(p);
-    sim.setResult(result);
-    simulationRepository.save(sim);
-}
 
-// Novo endpoint: Listar todas simulações salvas
-@GetMapping("/simulations")
-public List<Simulation> getAllSimulations() {
-    return simulationRepository.findAll();
+    // Novo: Salvar automaticamente após cada cálculo
+    private void saveSimulation(String type, int n, int k, Double p, String result) {
+        Simulation sim = new Simulation();
+        sim.setType(type);
+        sim.setN(n);
+        sim.setK(k);
+        sim.setP(p);
+        sim.setResult(result);
+        simulationRepository.save(sim);
+    }
 
-        }
+    // Novo endpoint: Listar todas simulações salvas
+    @GetMapping("/simulations")
+    public List<Simulation> getAllSimulations() {
+        return simulationRepository.findAll();
+    }
+
     // Novo endpoint: Simulação Martingale
     @GetMapping("/martingale/simulate")
     public String simulateMartingale(
             @RequestParam double bankrollInicial,
             @RequestParam double apostaInicial,
-            @RequestParam double p,           // prob de vitória (0 a 1)
+            @RequestParam double p,
             @RequestParam int maxRodadas) {
 
         if (bankrollInicial <= 0 || apostaInicial <= 0 || p <= 0 || p >= 1 || maxRodadas <= 0) {
@@ -142,11 +146,12 @@ public List<Simulation> getAllSimulations() {
 
         return resultado;
     }
+
     // Novo: Limpar todo o histórico
     @DeleteMapping("/simulations/clear")
     public String clearSimulations() {
-        long count = simulationRepository.count();  // quantas tem antes
-        simulationRepository.deleteAll();           // deleta tudo
+        long count = simulationRepository.count();
+        simulationRepository.deleteAll();
         return "Histórico limpo! " + count + " simulações deletadas.";
     }
-    }
+}
